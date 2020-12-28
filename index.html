@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link type="text/css" href="public/style.css" rel="stylesheet">
+    <title> Simple Chat </title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="chat">
+      <input id="input" type="text" placeholder="What's going on?" name="message">
+      <button type="submit"> SEND </button>
+    </form>
+    <script>
+    var socket = io();
+    socket.on('connect', () =>{
+      document.getElementById("chat").addEventListener("submit", (ev) =>{
+        ev.preventDefault()
+        var message = document.getElementById('input').value;
+        socket.emit('chatm',message)
+        document.getElementById('input').value = ''
+      })
+      socket.on('chatm', (message) =>{
+        var li = document.createElement("li");
+        li.appendChild(message);
+        document.getElementById("messages").appendChild(li)
+      })
+    })
+    </script>
+  </body>
+</html>
