@@ -7,25 +7,38 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   </head>
   <body>
-    <ul id="messages"></ul>
+    <ul id="messages">
+      <li>OI<li>
+    </ul>
     <form id="chat">
       <input id="input" type="text" placeholder="What's going on?" name="message">
       <button type="submit"> SEND </button>
     </form>
     <script>
     var socket = io();
-    socket.on('connect', () =>{
-      document.getElementById("chat").addEventListener("submit", (ev) =>{
-        ev.preventDefault()
-        var message = document.getElementById('input').value;
-        socket.emit('chatm',message)
-        document.getElementById('input').value = ''
-      })
-      socket.on('chatm', (message) =>{
-        var li = document.createElement("li");
-        li.appendChild(message);
-        document.getElementById("messages").appendChild(li)
-      })
+
+    function message_to_server(e){
+      e.preventDefault(); // prevent from page refresh
+      var message = document.getElementById('input').value;
+      // send input value to server as type 'message'
+      socket.emit('message', message);
+      // reset input value
+      document.getElementById('input').value = '';
+    }
+
+    function show_message(message){
+      var li = document.createElement("li");
+      li.innerText = message;
+      document.getElementById("messages").appendChild(li);
+    }
+
+    // starts function when submit is pushed
+    document.getElementById("chat").addEventListener("submit", (ev) =>{
+      message_to_server(ev);
+    })
+
+    socket.on('message', (msg) =>{
+      show_message(msg)
     })
     </script>
   </body>
