@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link type="text/css" href="public/style.css" rel="stylesheet">
-    <title> Simple Chat </title>
+    <link type="text/css" href="/views/style.css" rel="stylesheet">
+    <title> Global Chat </title>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   </head>
   <body>
-    <ul id="messages">
-      <li>OI<li>
-    </ul>
+    <ul id="messages"></ul>
     <form id="chat">
       <input id="input" type="text" placeholder="What's going on?" name="message">
       <button type="submit"> SEND </button>
     </form>
     <script>
     var socket = io();
-
     function message_to_server(e){
       e.preventDefault(); // prevent from page refresh
       var message = document.getElementById('input').value;
