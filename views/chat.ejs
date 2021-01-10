@@ -13,18 +13,20 @@
     </form>
     <script>
     var socket = io();
+
     function message_to_server(e){
       e.preventDefault(); // prevent from page refresh
       var message = document.getElementById('input').value;
+      message = message;
       // send input value to server as type 'message'
       socket.emit('message', message);
       // reset input value
       document.getElementById('input').value = '';
     }
 
-    function show_message(message){
+    function show_message(data){
       var li = document.createElement("li");
-      li.innerText = message;
+      li.innerText = data;
       document.getElementById("messages").appendChild(li);
     }
 
@@ -33,9 +35,11 @@
       message_to_server(ev);
     })
 
-    socket.on('message', (msg) =>{
-      show_message(msg)
+    // show message to client
+    socket.on('message', (data) =>{
+      show_message(data)
     })
+
     </script>
   </body>
 </html>
